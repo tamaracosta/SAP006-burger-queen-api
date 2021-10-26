@@ -8,7 +8,8 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "lint": "eslint ."
   },
   "dependencies": {
