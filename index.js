@@ -1,3 +1,5 @@
+require('dotenv').config();
+const console = require('console');
 const express = require('express');
 const cors = require('cors');
 const routes = require('./server/routes/index');
@@ -11,8 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', routes);
 
-app.get('*', (req, res) => {
-  res.send('Hello World!');
+app.get('/', (req, res) => {
+  res.send('Aplicação executando...');
 });
 
 app.listen(port, () => {
