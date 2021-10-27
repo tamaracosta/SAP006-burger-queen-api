@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const models = require('../db/models');
 
 const controller = {};
@@ -27,7 +28,28 @@ controller.getOrderId = async (req, res) => {
   try {
     const order = await models.Orders.findOne(config);
     if (order) {
-      res.status(200).json(order);
+      const filterProductOrder = {
+        where: { order_id: req.params.uid },
+      };
+      const listProductsOrders = await models.ProductsOrders.findAll(filterProductOrder);
+
+      const listProducts = listProductsOrders.map(async (productOrder) => {
+        const filterProduct = {
+          where: { id: productOrder.product_id },
+        };
+        const product = await models.Products.findOne(filterProduct);
+        console.log('PROD', product.dataValues);
+        return product.dataValues;
+      });
+
+      console.log('listProducts', await listProducts);
+
+      const updatedOrder = {
+        ...order.dataValues,
+        Products: listProducts,
+      };
+
+      res.status(200).json(updatedOrder);
     } else {
       res.status(200).json({
         message: 'Nenhum pedido encontrado',
@@ -52,7 +74,22 @@ controller.createOrder = async (req, res) => {
   try {
     const order = await models.Orders.create(newOrder);
     if (order) {
-      res.status(201).json(order);
+      const { products } = req.body;
+      products.forEach((product) => {
+        const newProductOrder = {
+          order_id: order.id,
+          product_id: product.id,
+          qtd: product.qtd,
+        };
+        models.ProductsOrders.create(newProductOrder);
+      });
+
+      const updatedOrder = {
+        ...order.dataValues,
+        products,
+      };
+
+      res.status(201).json(updatedOrder);
     } else {
       res.status(200).json({
         message: 'Nenhum pedido cadastrado',
