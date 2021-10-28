@@ -1,0 +1,752 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": " Ovni Burguer API.",
+      "description": "Documentação da API do restaurante Ovni Burguer",
+      "version": "1.0.0",
+      "contact": {
+        "email": "tamarasantosc@gmail.com"
+      }
+    },
+    "paths" : {
+        "/users": {
+            "get": {
+                "summary": "Listar todos os usuários",
+                "description:": "Rota para listar todos os usuários",
+                "tags": ["Users"],
+                "responses": {
+                    "500": {
+                        "description": "Erro ao listar os usuários",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "post": {
+                "summary": "Cadastrar usuário",
+                "description:": "Rota para cadastrar usuário",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserWithoutId"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Faltando dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Email já em uso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+        "/users/{uid}": {
+            "get": {
+                "summary": "Exibir usuário",
+                "description:": "Rota para exibir usuário",
+                "tags": ["Users"],
+                "parameters": [
+                     {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "ID do usuário para retornar",
+                        "required": true,
+                        "type": "string"
+                      }
+
+                  ],
+                "responses": {
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "put": {
+                "summary": "Atualizar usuário",
+                "description:": "Rota para atualizar usuário",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                       "name": "uid",
+                       "in": "path",
+                       "description": "ID do usuário para atualizar",
+                       "required": true,
+                       "type": "string"
+                     }
+
+                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserWithoutId"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+        
+            "delete": {
+                "summary": "Deletar usuário",
+                "description:": "Rota para deletar usuário",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Id do usuário que precisa ser deletado",
+                        "required": true,
+                        "type": "string"
+                      }
+
+                  ],
+                "responses": {
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserWithoutId"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "summary": "Lista dos produtos",
+                "description:": "Rota para listar todos os produtos",
+                "tags": ["Products"],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+        "/products/{productId}": {
+            "get": {
+                "summary": "Listar um produto pelo ID",
+                "description:": "Rota para listar um produto pelo ID",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID do produto para retornar",
+                        "required": true,
+                        "type": "string"
+                      }
+                  ],
+                
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "summary": "Listar todos os pedidos",
+                "description:": "Rota para listar todos os pedidos",
+                "tags": ["Orders"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "post": {
+                "summary": "Criar pedido",
+                "description:": "Rota para criar pedido",
+                "tags": ["Orders"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+        "/orders/{orderId}": {
+            "get": {
+                "summary": "Listar um pedido",
+                "description:": "Rota para listar um pedido",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "ID do pedido para retornar",
+                        "required": true,
+                        "type": "string"
+                      }
+                  ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "put": {
+                "summary": "Atualizar status de um pedido",
+                "description:": "Rota para atualizar status de um pedido",
+                "tags": ["Orders"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "delete": {
+                "summary": "Deletar um pedido",
+                "description:": "Rota para deletar um pedido",
+                "tags": ["Orders"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MsgError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+  
+    },
+    "components": {
+        "schemas": {
+            "UserWithoutId": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "restaurant": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "restaurant": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "flavor": {
+                        "type": "string"
+                    },
+                    "complement": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "subtype": {
+                        "type": "string"
+                    }
+
+
+                }
+            },
+            "Order": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "client_name": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "number"
+                    },
+                    "table": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "processedAt": {
+                    "type": "string",
+                    "format": "data"
+                    },
+                    "createdAt": {
+                    "type": "string",
+                    "format": "data"
+                    },
+                    "updatedAt": {
+                    "type": "string",
+                    "format": "data"
+                    },
+                    "Products": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                            "type": "number"
+                            },
+                            "name": {
+                            "type": "string"
+                            },
+                            "flavor": {
+                            "type": "string"
+                            },
+                            "complement": {
+                            "type": "string"
+                            },
+                            "qtd": {
+                            "type": "number"
+                            }
+
+                        }
+                    }
+                }
+            
+            },
+            "MsgError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "number"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+
+        }
+    }
+}
+
