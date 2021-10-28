@@ -53,5 +53,10 @@ vindas do front.
 * Heroku
 * Swagger UI
 
+## 5. 📑Melhorias Futuras:
+* Autenticação do usuário
+* Testes unitários
+
+
 ### 👩‍💻 Desenvolvedora:
 - [@tamaracosta](https://www.github.com/tamaracosta) 
