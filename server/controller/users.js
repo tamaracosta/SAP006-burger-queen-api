@@ -14,12 +14,14 @@ controller.getUsers = async (req, res) => {
     if (users.length > 0) {
       res.status(200).json(users);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum usuário encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
@@ -37,12 +39,14 @@ controller.getUserId = async (req, res) => {
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum usuário encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
@@ -68,12 +72,14 @@ controller.createUser = async (req, res) => {
         restaurant: user.restaurant,
       });
     } else {
-      res.status(200).json({
-        message: 'nenhum usuário cadastrado',
+      res.status(400).json({
+        code: 400,
+        message: 'Faltando dados',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao cadastrar os dados. ${error}`,
     });
   }
@@ -105,12 +111,14 @@ controller.updateUser = async (req, res) => {
         restaurant: user.restaurant,
       });
     } else {
-      res.status(200).json({
-        message: 'nenhum usuário atualizado',
+      res.status(404).json({
+        code: 404,
+        message: 'usuário não encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao atualizar os dados. ${error}`,
     });
   }
@@ -131,12 +139,14 @@ controller.deleteUser = async (req, res) => {
         message: 'usuário deletado com sucesso!',
       });
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum usuário encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao deletar os dados. ${error}`,
     });
   }
