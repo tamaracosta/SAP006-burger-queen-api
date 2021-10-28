@@ -8,32 +8,33 @@ controller.getProduct = async (req, res) => {
     if (products.length > 0) {
       res.status(200).json(products);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum produto encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
 };
 
 controller.getProductId = async (req, res) => {
-  const config = {
-    where: { id: req.params.uid },
-  };
   try {
-    const product = await models.Products.findOne(config);
+    const product = await models.Products.findByPk(req.params.productId);
     if (product) {
       res.status(200).json(product);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum produto encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
@@ -55,12 +56,14 @@ controller.createProduct = async (req, res) => {
     if (product) {
       res.status(201).json(product);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum produto cadastrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao cadastrar os dados. ${error}`,
     });
   }
@@ -79,44 +82,49 @@ controller.updateProduct = async (req, res) => {
 
   const where = {
     where: {
-      id: req.params.uid,
+      id: req.params.productId,
     },
   };
   try {
     await models.Products.update(updatedProduct, where);
-    const product = await models.Products.findOne(where);
+    const product = await models.Products.findByPk(req.params.productId);
     if (product) {
       res.status(200).json(product);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum produto atualizado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao atualizar os dados. ${error}`,
     });
   }
 };
 
 controller.deleteProduct = async (req, res) => {
-  const config = {
-    where: { id: req.params.uid },
+  const where = {
+    where: {
+      id: req.params.productId,
+    },
   };
-
   try {
-    const product = await models.Products.destroy(config);
+    const product = await models.Products.destroy(where);
     if (product) {
       res.status(200).json({
         message: 'produto deletado com sucesso!',
       });
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'nenhum produto encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao deletar os dados. ${error}`,
     });
   }

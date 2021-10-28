@@ -10,9 +10,9 @@ const {
 const productsRouter = Router();
 
 productsRouter.get('/', getProduct);
-productsRouter.get('/:uid', getProductId);
+productsRouter.get('/:productId', getProductId);
 productsRouter.post('/', createProduct);
-productsRouter.put('/:uid', updateProduct);
-productsRouter.delete('/:uid', deleteProduct);
+productsRouter.put('/:productId', updateProduct);
+productsRouter.delete('/:productId', deleteProduct);
 
 module.exports = productsRouter;
