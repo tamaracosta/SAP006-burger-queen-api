@@ -1,62 +1,50 @@
-/* eslint-disable no-console */
 const models = require('../db/models');
 
 const controller = {};
 
 controller.getOrders = async (req, res) => {
   try {
-    const orders = await models.Orders.findAll();
+    const config = {
+      include: [{
+        model: models.Products, as: 'Products', attributes: ['id', 'name', 'flavor', 'complement'], through: { attributes: ['qtd'], as: 'info' },
+      }],
+    };
+    const orders = await models.Orders.findAll(config);
     if (orders.length > 0) {
       res.status(200).json(orders);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum pedido encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
 };
 
 controller.getOrderId = async (req, res) => {
-  const config = {
-    where: { id: req.params.uid },
-  };
-
   try {
-    const order = await models.Orders.findOne(config);
-    if (order) {
-      const filterProductOrder = {
-        where: { order_id: req.params.uid },
-      };
-      const listProductsOrders = await models.ProductsOrders.findAll(filterProductOrder);
-
-      const listProducts = listProductsOrders.map(async (productOrder) => {
-        const filterProduct = {
-          where: { id: productOrder.product_id },
-        };
-        const product = await models.Products.findOne(filterProduct);
-        console.log('PROD', product.dataValues);
-        return product.dataValues;
+    const order = await models.Orders.findByPk(req.params.orderId,
+      {
+        include: [{
+          model: models.Products, as: 'Products', attributes: ['id', 'name', 'flavor', 'complement'], through: { attributes: ['qtd'], as: 'info' },
+        }],
       });
-
-      console.log('listProducts', await listProducts);
-
-      const updatedOrder = {
-        ...order.dataValues,
-        Products: listProducts,
-      };
-
-      res.status(200).json(updatedOrder);
+    if (order) {
+      res.status(200).json(order);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum pedido encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao consultar os dados. ${error}`,
     });
   }
@@ -91,12 +79,14 @@ controller.createOrder = async (req, res) => {
 
       res.status(201).json(updatedOrder);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum pedido cadastrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao cadastrar os dados. ${error}`,
     });
   }
@@ -122,12 +112,14 @@ controller.updateOrder = async (req, res) => {
     if (order) {
       res.status(200).json(order);
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum pedido atualizado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao atualizar os dados. ${error}`,
     });
   }
@@ -145,12 +137,14 @@ controller.deleteOrder = async (req, res) => {
         message: 'Pedido deletado com sucesso!',
       });
     } else {
-      res.status(200).json({
+      res.status(404).json({
+        code: 404,
         message: 'Nenhum pedido encontrado',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
+      code: 500,
       message: `Erro ao deletar os dados. ${error}`,
     });
   }
