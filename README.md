@@ -40,6 +40,7 @@ vindas do front.
 
 
 ## 3. ✍Diagrama:
+![diagrama-readme](https://user-images.githubusercontent.com/75817559/139256378-51df92cd-2c70-41bf-939f-f3b2d33a8c18.png)
 
 
 ## 4. 💻Tecnologias utilizadas:
