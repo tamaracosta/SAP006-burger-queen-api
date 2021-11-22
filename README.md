@@ -12,6 +12,8 @@ precisamos criar o back-end para manejar os dados. Neste caso, isso será
 feito através de uma API rest que será compatível com as requisições
 vindas do front.
 
+![Captura de Tela (377)](https://user-images.githubusercontent.com/75817559/142790976-f33db858-7ca9-439a-af11-7cb023cc2c6e.png)
+
 
 ## 2. 🎯 End-Points
 #### 1. `/users`
@@ -23,6 +25,7 @@ vindas do front.
 * `DELETE /users/:uid`
 
 #### 2. `/products`
+
 
 * `GET /products`
 * `GET /products/:productid`
@@ -52,10 +55,6 @@ vindas do front.
 * Dbeaver
 * Heroku
 * Swagger UI
-
-## 5. 📑Melhorias Futuras:
-* Autenticação do usuário
-* Testes unitários
 
 
 ### 👩‍💻 Desenvolvedora:
